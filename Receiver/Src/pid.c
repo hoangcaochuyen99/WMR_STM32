@@ -18,7 +18,7 @@ float PID_MeasureRotation(float left, float right) {
 @brief:		First block of model => Kinematic controller
 @param:		float x_fb, y_fb, phi_fb: value of feedback position
 					float* v_out, *w_out: pointer to output of kinematic controller
-																these variables are inputs of inverse dynamic model
+							these variables are inputs of inverse dynamic model
 */
 void PID_KinematicControl(float x_fb, float y_fb, float phi_fb, float* v_out, float* w_out) {
 	/*******************************/
