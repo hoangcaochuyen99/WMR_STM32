@@ -39,6 +39,19 @@ void MPU_GetGyroValue(I2C_HandleTypeDef* hi2c, uint8_t* gx, uint8_t* gy, uint8_t
 	gy[1] = data[3];
 	gz[0] = data[4];
 	gz[1] = data[5];
+	Gyro_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
+	Gyro_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
+	Gyro_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
+
+/*** convert the RAW values into dps (°/s)
+     we have to divide according to the Full scale value set in FS_SEL
+     I have configured FS_SEL = 0. So I am dividing by 131.0
+     for more details check GYRO_CONFIG Register              ****/
+
+	Gx = Gyro_X_RAW/131.0;
+	Gy = Gyro_Y_RAW/131.0;
+	Gz = Gyro_Z_RAW/131.0;
+	
 }
 
 void MPU_GetAcceleratorValue(I2C_HandleTypeDef* hi2c, uint8_t* ax, uint8_t* ay, uint8_t* az) {
@@ -50,4 +63,16 @@ void MPU_GetAcceleratorValue(I2C_HandleTypeDef* hi2c, uint8_t* ax, uint8_t* ay, 
 	ay[1] = data[3];
 	az[0] = data[4];
 	az[1] = data[5];
+	Accel_X_RAW = (int16_t)(Rec_Data[0] << 8 | Rec_Data [1]);
+	Accel_Y_RAW = (int16_t)(Rec_Data[2] << 8 | Rec_Data [3]);
+	Accel_Z_RAW = (int16_t)(Rec_Data[4] << 8 | Rec_Data [5]);
+
+/*** convert the RAW values into acceleration in 'g'
+     we have to divide according to the Full scale value set in FS_SEL
+     I have configured FS_SEL = 0. So I am dividing by 16384.0
+     for more details check ACCEL_CONFIG Register              ****/
+
+	Ax = Accel_X_RAW/16384.0;  // get the float g
+	Ay = Accel_Y_RAW/16384.0;
+	Az = Accel_Z_RAW/16384.0;
 }
